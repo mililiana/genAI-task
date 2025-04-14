@@ -68,3 +68,46 @@ I don`t have GPU so I used Google colab, if you are able to use your local machi
 You can customize the prompt in the inpainting step to get different facial expressions.
 The project was tested on group photos with up to 10 faces.
 You can replace the model in the inpainting step with other fine-tuned face models like SG161222/Realistic_Vision_V5.1_inpainting for higher realism.
+
+
+
+## Known Limitations & Next Steps:
+
+While this pipeline successfully identifies faces and generates masks for closed eyes, the approach is not perfect:
+
+The mask generation logic is still basic and can miss fine eye shapes, leading to imperfect inpainting results.
+Stable Diffusion sometimes creates inconsistent face features or artifacts after inpainting.
+
+Planned Improvements:
+Improve landmark-based eye region detection with smoother mask generation.
+Train or fine-tune a specialized Stable Diffusion model for facial inpainting.
+Add expression analysis to handle smiles, not just eyes.
+Integrate the full pipeline into the gradio web app for a fully automated UX.
+
+
+
+## Gradio Web Demo
+
+You can also test a basic image manipulation demo by running:
+
+```python main.py```
+
+In this demo, the following simple transformations are available:
+
+```bash
+if approach == "Grayscale":
+    result = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    result = cv2.cvtColor(result, cv2.COLOR_GRAY2RGB)  
+elif approach == "Edge Detection":
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    edges = cv2.Canny(gray, 100, 200)
+    result = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
+elif approach == "Blur":
+    result = cv2.GaussianBlur(img, (15, 15), 0)
+else:
+    result = img
+```
+
+This part is a prototype for image input/output and testing, not the core face-fixing logic.
+
+
